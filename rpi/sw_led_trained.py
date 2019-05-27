@@ -29,15 +29,18 @@ GPIO.setup(sw2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(led1, GPIO.OUT)
 GPIO.setup(led2, GPIO.OUT)
 
-
+prev_in1, prev_in2 = -1,-1
 try:
     while True:
         in1, in2= GPIO.input(sw1), GPIO.input(sw2)
-        out = knn.predict([[in1, in2]])
-        out1, out2 = classes[out[0]]
-        GPIO.output(led1, out1)
-        GPIO.output(led2, out2)
-        print(in1, in2, out1, out2)
-        time.sleep(0.1)
+        if prev_in1 != in1 or prev_in2 != in2:
+            out = knn.predict([[in1, in2]])
+            out1, out2 = classes[out[0]]
+            out1, out2 = out1.item(), out2.item()
+            GPIO.output(led1, out1)
+            GPIO.output(led2, out2)
+            print(in1, in2, out1, out2)
+            prev_in1, prev_in2 = in1, in2
+            time.sleep(0.1)
 finally:
     GPIO.cleanup()
