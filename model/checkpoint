@@ -1,3 +1,2 @@
-model_checkpoint_path: "dnn_final.ckpt"
-all_model_checkpoint_paths: "dnn.ckpt-100"
-all_model_checkpoint_paths: "dnn_final.ckpt"
+model_checkpoint_path: "mnist_ann.ckpt"
+all_model_checkpoint_paths: "mnist_ann.ckpt"

@@ -2,6 +2,9 @@
 # Created by https://www.gitignore.io/api/python,windows,jupyternotebook
 # Edit at https://www.gitignore.io/?templates=python,windows,jupyternotebook
 
+#trained_model
+trained_model/*
+
 .dropbox
 ### JupyterNotebook ###
 .ipynb_checkpoints

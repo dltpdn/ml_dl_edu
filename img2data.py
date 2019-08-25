@@ -7,7 +7,7 @@
 import cv2
 import numpy as np
 
-def digit2data(src, size=(8,8), reshape=True):
+def digit2data(src, size=(8,8), reshape=True, border=0):
     h, w = src.shape[:2]
     square = src
     # 정사각형 형태로 만들기
@@ -20,16 +20,26 @@ def digit2data(src, size=(8,8), reshape=True):
         square = np.zeros((w, w), dtype=np.uint8)
         square[pad:pad+h, :] = src
     px = np.zeros(size, np.uint8)
-    px[:, :] = cv2.resize(square, size, interpolation=cv2.INTER_AREA)
+    content = size
+    if border != 0 :
+        content = (size[0] - (border*2), size[1] - (border*2))
+    px[border:-border, border:-border] = cv2.resize(square, content, interpolation=cv2.INTER_AREA)
     if reshape:
         px = px.reshape((1,size[0] * size[1]))
     return px 
 
-def img2digits(image, size=None, reshape=True):
+def img2digits(image, size=None, reshape=True, border=0):
+    
     
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _, th = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)
-    contours, hirachy = cv2.findContours(th, cv2.RETR_EXTERNAL, 
+    (major, minor, _ )= cv2.__version__.split(".")
+    print(major)
+    if int(major) > 3 :
+        contours, hirachy = cv2.findContours(th, cv2.RETR_EXTERNAL, 
+                                        cv2.CHAIN_APPROX_SIMPLE)
+    else :
+        _, contours, hirachy = cv2.findContours(th, cv2.RETR_EXTERNAL, 
                                         cv2.CHAIN_APPROX_SIMPLE)
     numbers = []
     for c in contours:
@@ -46,6 +56,6 @@ def img2digits(image, size=None, reshape=True):
     else:
         for i, n in enumerate(numbers):
             n = 255- n  # 반전
-            numbers[i] = digit2data(n, size, reshape)
+            numbers[i] = digit2data(n, size, reshape, border)
         return numbers
 
