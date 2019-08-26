@@ -23,18 +23,19 @@ def digit2data(src, size=(8,8), reshape=True, border=0):
     content = size
     if border != 0 :
         content = (size[0] - (border*2), size[1] - (border*2))
-    px[border:-border, border:-border] = cv2.resize(square, content, interpolation=cv2.INTER_AREA)
+        px[border:-border, border:-border] = cv2.resize(square, content, interpolation=cv2.INTER_AREA)
+    else:
+        px[:, :] = cv2.resize(square, content, interpolation=cv2.INTER_AREA)
     if reshape:
         px = px.reshape((1,size[0] * size[1]))
     return px 
 
-def img2digits(image, size=None, reshape=True, border=0):
+def img2digits(image, size=None, reshape=True, border=0, inverse=True):
     
     
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _, th = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)
     (major, minor, _ )= cv2.__version__.split(".")
-    print(major)
     if int(major) > 3 :
         contours, hirachy = cv2.findContours(th, cv2.RETR_EXTERNAL, 
                                         cv2.CHAIN_APPROX_SIMPLE)
@@ -50,12 +51,15 @@ def img2digits(image, size=None, reshape=True, border=0):
             # 숫자 영역만 roi로 확보하고 사각형 그리기 ---⑨
             roi = gray[y:y + h, x:x + w]
             numbers.append(roi)
-
+        
+        
+    if inverse:
+        for i, n in enumerate(numbers):
+            numbers[i] = 255- n  # 반전
+        
     if size is None:
         return numbers
     else:
         for i, n in enumerate(numbers):
-            n = 255- n  # 반전
             numbers[i] = digit2data(n, size, reshape, border)
         return numbers
-
