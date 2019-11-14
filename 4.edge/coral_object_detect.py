@@ -56,6 +56,7 @@ while True:
     fps = 1/ (prevTime - currTime)
     prevTime = currTime
     cv2.putText(frame, "fps:%.1f"%fps, (10,100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0))
+    print("fps:%.1f"%fps)
     cv2.imshow('Object Detecting', frame)
     if cv2.waitKey(1)&0xFF == 27:
-        break
+        break  
