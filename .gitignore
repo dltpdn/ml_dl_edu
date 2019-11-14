@@ -2,6 +2,15 @@
 # Created by https://www.gitignore.io/api/python,windows,jupyternotebook
 # Edit at https://www.gitignore.io/?templates=python,windows,jupyternotebook
 
+study/
+logs/*
+model/*
+summary/
+#trained_model
+*/trained_model/*
+trained_model/*
+
+
 .dropbox
 ### JupyterNotebook ###
 .ipynb_checkpoints
@@ -161,3 +170,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/python,windows,jupyternotebook
+
