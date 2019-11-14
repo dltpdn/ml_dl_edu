@@ -18,7 +18,7 @@ with open(label_path, 'r') as f:
         id, name = line.strip().split(maxsplit=1)
         labels[id] = name
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(-1)
 while True:
     ret, frame = cap.read()
     if not ret:
