@@ -2,6 +2,7 @@
 # Created by https://www.gitignore.io/api/python,windows,jupyternotebook
 # Edit at https://www.gitignore.io/?templates=python,windows,jupyternotebook
 
+<<<<<<< HEAD
 study/
 logs/*
 model/*
@@ -11,6 +12,11 @@ summary/
 trained_model/*
 
 
+=======
+#trained_model
+trained_model/*
+
+>>>>>>> 310e9c493e1c36a3ed6ec5802accbb9a5793b8af
 .dropbox
 ### JupyterNotebook ###
 .ipynb_checkpoints
